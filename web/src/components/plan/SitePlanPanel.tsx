@@ -50,7 +50,8 @@ export default function SitePlanPanel(p: Props) {
     const key = ['area', 'need', 'access', 'space', 'partners'][plan.step]
     const el = key && docRef.current?.querySelector(`#doc-${key}`)
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    wizardRef.current?.scrollTo({ top: 0 })
+    // Each step starts at its top; the scroll area is the wizard body, not the whole column.
+    wizardRef.current?.querySelector('.wizard-body')?.scrollTo({ top: 0 })
   }, [plan.step])
 
   return (
