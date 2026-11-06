@@ -129,7 +129,7 @@ export default function App() {
 
   const townOf = (t: { lat: number; lon: number }) => nearestTown(raw.facilities.features, t.lat, t.lon)
 
-  function startPlan(geoid: string, at?: { lat: number; lon: number }, label?: string, program: ProgramId = 'titlex') {
+  function startPlan(geoid: string, at?: { lat: number; lon: number }, label?: string, program: ProgramId = 'hrsa') {
     const t = allTracts.find((x) => x.GEOID === geoid)
     if (!t) return
     const p = newPlan(t, allTracts, `Women's health site · ${label ?? townOf(at ?? t)}`, at, program)

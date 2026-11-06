@@ -38,21 +38,23 @@ export default function PacketStep(p: StepProps & { goTo: (step: number) => void
   const [busy, setBusy] = useState<string | null>(null)
   return (
     <div className="step">
-      <p className="step-lede">You filled this in once. Here it is in each funder's terms. Preview any version, or download all three.</p>
+      <p className="step-lede">Your HRSA Health Center Program evidence is ready to preview and download. Title X and CalRHT versions are coming soon.</p>
       <ul className="versions">
         {PROGRAM_ORDER.map((id) => (
-          <li key={id}>
+          <li key={id} className={PROGRAMS[id].available ? '' : 'soon'}>
             <span>
-              <b>{PROGRAMS[id].name}</b>
+              <b>{PROGRAMS[id].name}</b>{!PROGRAMS[id].available && <span className="soon-tag">Coming soon</span>}
               <span className="near-type">{PROGRAMS[id].who}</span>
             </span>
-            <button className="btn small" onClick={() => p.print(['area', 'need', 'access', 'space', 'partners'], id)}>Preview</button>
+            {PROGRAMS[id].available
+              ? <button className="btn small" onClick={() => p.print(['area', 'need', 'access', 'space', 'partners'], id)}>Preview</button>
+              : <button className="btn small" disabled>Preview</button>}
           </li>
         ))}
       </ul>
       <button className="btn primary block" disabled={!!busy}
         onClick={async () => { try { await downloadAllVersions(p, setBusy) } finally { setBusy(null) } }}>
-        {busy ?? 'Download all 3 as PDFs (ZIP)'}
+        {busy ?? 'Download HRSA PDF'}
       </button>
       <h3>Before you submit</h3>
       <ul className="checklist">

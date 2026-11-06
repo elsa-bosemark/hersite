@@ -79,10 +79,10 @@ export function buildPartners(p: Pick<StepProps, 'plan' | 'facilities' | 'hospit
 export function letterRequest(plan: SitePlan, partner: Partner, women: number) {
   const org = plan.org || '[Your organization]'
   // One request that works for every funder: a specific letter of commitment also serves as a letter of support.
-  const ask = 'Would you be willing to sign a short letter describing the specific role you would play, such as accepting referrals or the services you would provide, and your experience serving women in this area? A letter with these specifics works for each funder we are applying to.'
+  const ask = 'Would you be willing to sign a short letter describing the specific role you would play, such as accepting referrals or the services you would provide, and your experience serving women in this area? Specific letters like this are the strongest evidence of collaboration.'
   return `Dear ${partner.name} team,
 
-${org} is applying for funding (Title X family planning, HRSA's Health Center Program and California's rural health grants) to open a new women's health site${plan.site.address ? ` at ${plan.site.address}` : ''}, serving ZIP codes ${plan.zips.join(', ')}. About ${Math.round(women).toLocaleString()} women live in this area, and many face long distances to care.
+${org} is applying to HRSA's Health Center Program to open a new women's health site${plan.site.address ? ` at ${plan.site.address}` : ''}, serving ZIP codes ${plan.zips.join(', ')}. About ${Math.round(women).toLocaleString()} women live in this area, and many face long distances to care.
 
 The site would offer well-woman exams, birth control, Pap and HPV screening, STI testing, and prenatal and postpartum care, and would refer patients to partners like you for services we don't provide.
 
@@ -128,7 +128,7 @@ export default function PartnersStep(p: StepProps) {
   return (
     <div className="step">
       <p className="step-lede">
-        Every funder wants partners. Title X only counts letters of commitment that name each partner's specific role, so the request asks for that, and it also works as a letter of support for HRSA and CalRHT.
+        HRSA wants letters from local health centers, hospitals and the health department, or a record that you asked. The request asks each partner to name their specific role.
       </p>
       <label className="field">
         <span>Your organization (left off the list)</span>

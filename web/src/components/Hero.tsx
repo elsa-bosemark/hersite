@@ -46,7 +46,7 @@ export default function Hero({ places, plans, onPlan, onOpenPlan }: Props) {
       <div className="hero-bg" aria-hidden="true"><span /><span /><span /></div>
       <div className="hero-card">
         <h1>Plan where to open <span>women's care</span></h1>
-        <p className="hero-sub">Fill it in once. Get evidence for Title X, HRSA's Health Center Program and CalRHT.</p>
+        <p className="hero-sub">Gather the evidence for your HRSA Health Center Program application. Title X and CalRHT coming soon.</p>
 
         <form className="search-bar" role="search" onSubmit={(e) => { e.preventDefault(); submit() }}>
           <div className="search-field grow">

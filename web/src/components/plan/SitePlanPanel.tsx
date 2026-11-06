@@ -34,7 +34,7 @@ export default function SitePlanPanel(p: Props) {
   // One plan feeds every funder; the tab picks which version the preview shows.
   const program = programOf(plan.program)
   const [busy, setBusy] = useState<string | null>(null)
-  const preview = (id: ProgramId) => update({ program: id })
+  const preview = (id: ProgramId) => PROGRAMS[id].available && update({ program: id })
   async function downloadAll() {
     try {
       await downloadAllVersions(p, setBusy)
@@ -62,7 +62,7 @@ export default function SitePlanPanel(p: Props) {
             <span className="muted small">{done} of 5 done · saved in this browser</span>
           </div>
           <input className="plan-name" value={plan.name} onChange={(e) => update({ name: e.target.value })} aria-label="Plan name" />
-          <p className="program-note">One plan, three versions: Title X, HRSA and CalRHT.</p>
+          <p className="program-note">Built for HRSA's Health Center Program. Title X and CalRHT versions are coming soon.</p>
           <ol className="steps-bar">
             {STEPS.map((s, i) => (
               <li key={s.title}>
@@ -81,7 +81,7 @@ export default function SitePlanPanel(p: Props) {
             <p className="eyebrow">Step {plan.step + 1} of {STEPS.length}</p>
             <h2>{STEPS[plan.step].title}</h2>
             {plan.step < 5 && (
-              <p className="used-in">Used in: {PROGRAM_ORDER.map((id) => PROGRAMS[id].refs[plan.step]).join(' · ')}</p>
+              <p className="used-in">HRSA asks for this in: {PROGRAMS.hrsa.refs[plan.step]}</p>
             )}
           </div>
           {plan.step < 5 && (
@@ -98,7 +98,7 @@ export default function SitePlanPanel(p: Props) {
           {plan.step < STEPS.length - 1 ? (
             <button className="btn primary" onClick={() => goTo(plan.step + 1)}>Next: {STEPS[plan.step + 1].title} →</button>
           ) : (
-            <button className="btn primary" onClick={downloadAll} disabled={!!busy}>{busy ?? 'Download all 3 (ZIP)'}</button>
+            <button className="btn primary" onClick={downloadAll} disabled={!!busy}>{busy ?? 'Download HRSA PDF'}</button>
           )}
         </div>
       </section>
@@ -106,19 +106,33 @@ export default function SitePlanPanel(p: Props) {
       <section className="doc-pane" aria-label="Application preview">
         <div className="doc-bar">
           <div className="version-tabs" role="tablist" aria-label="Application version">
-            {PROGRAM_ORDER.map((id) => (
-              <button key={id} role="tab" aria-selected={program.id === id} className={program.id === id ? 'on' : ''} onClick={() => preview(id)}>
-                {PROGRAMS[id].short}
-              </button>
-            ))}
+            {PROGRAM_ORDER.map((id) => {
+              const pr = PROGRAMS[id]
+              return (
+                <button key={id} role="tab" aria-selected={program.id === id} aria-disabled={!pr.available}
+                  disabled={!pr.available} title={pr.available ? undefined : `${pr.name}: coming soon`}
+                  className={`${program.id === id ? 'on' : ''}${pr.available ? '' : ' soon'}`} onClick={() => preview(id)}>
+                  {pr.short}{!pr.available && <span className="soon-tag">Soon</span>}
+                </button>
+              )
+            })}
           </div>
           <div className="doc-actions">
             <button className="btn small" onClick={() => p.print(['area', 'need', 'access', 'space', 'partners'], program.id)}>Preview</button>
-            <button className="btn small primary" onClick={downloadAll} disabled={!!busy}>{busy ?? 'Download all 3 (ZIP)'}</button>
+            <button className="btn small primary" onClick={downloadAll} disabled={!!busy}>{busy ?? 'Download PDF'}</button>
             <button className="link danger" onClick={() => { if (window.confirm(`Delete “${plan.name}”? This can't be undone.`)) p.onDelete() }}>Delete</button>
           </div>
         </div>
-        <p className="version-note">{program.name} version · fills in as you go. {program.funder}</p>
+        <div className="version-head">
+          <h2>{program.name}</h2>
+          <p className="muted">Your application evidence, filling in as you go.</p>
+          <details className="learn">
+            <summary>Learn more about {program.short} and the application</summary>
+            <p>{program.learn.summary}</p>
+            <p><b>How you apply:</b> {program.learn.how}</p>
+            <ul>{program.learn.links.map(([label, url]) => <li key={url}><a href={url} target="_blank" rel="noreferrer">{label} ↗</a></li>)}</ul>
+          </details>
+        </div>
         <div className="doc-progress" aria-label={`${done} of 5 sections complete`}><span style={{ width: `${(done / 5) * 100}%` }} /></div>
         <div className="doc-scroll" ref={docRef}>
           <PlanDocument {...p} sections={['area', 'need', 'access', 'space', 'partners']} current={plan.step} onJump={goTo} />

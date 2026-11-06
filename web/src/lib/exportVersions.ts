@@ -19,7 +19,9 @@ export async function downloadAllVersions(p: StepProps, onProgress?: (msg: strin
   host.style.cssText = 'position:fixed;left:-10000px;top:0;width:816px;background:#fff'
   document.body.appendChild(host)
   try {
-    for (const id of PROGRAM_ORDER) {
+    const ids = PROGRAM_ORDER.filter((id) => PROGRAMS[id].available)
+    const files: [string, Blob][] = []
+    for (const id of ids) {
       onProgress?.(`Making the ${PROGRAMS[id].short} version…`)
       const mount = document.createElement('div')
       host.appendChild(mount)
@@ -34,16 +36,25 @@ export async function downloadAllVersions(p: StepProps, onProgress?: (msg: strin
         jsPDF: { unit: 'mm', format: 'letter', orientation: 'portrait' },
         pagebreak: { mode: ['css', 'legacy'], avoid: ['tr', '.doc-head', 'img'] },
       }).from(page).outputPdf('blob')
-      zip.file(`${safe(p.plan.name)} - ${PROGRAMS[id].short} application evidence.pdf`, blob)
+      files.push([`${safe(p.plan.name)} - ${PROGRAMS[id].short} application evidence.pdf`, blob])
       root.unmount()
       mount.remove()
     }
-    onProgress?.('Zipping…')
-    const out = await zip.generateAsync({ type: 'blob' })
+    // One supported funder: download its PDF directly. Several: bundle them in a ZIP.
+    let out: Blob
+    let name: string
+    if (files.length === 1) {
+      [name, out] = files[0]
+    } else {
+      onProgress?.('Zipping…')
+      for (const [n, b] of files) zip.file(n, b)
+      out = await zip.generateAsync({ type: 'blob' })
+      name = `${safe(p.plan.name)} - application evidence.zip`
+    }
     const url = URL.createObjectURL(out)
     const a = document.createElement('a')
     a.href = url
-    a.download = `${safe(p.plan.name)} - application evidence (Title X, HRSA, CalRHT).zip`
+    a.download = name
     a.click()
     URL.revokeObjectURL(url)
   } finally {

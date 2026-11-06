@@ -66,7 +66,7 @@ export function zipsNear(tracts: TractProps[], lat: number, lon: number, km: num
   return [...zips].sort()
 }
 
-export function newPlan(t: TractProps, tracts: TractProps[], name: string, at?: { lat: number; lon: number }, program: ProgramId = 'titlex'): SitePlan {
+export function newPlan(t: TractProps, tracts: TractProps[], name: string, at?: { lat: number; lon: number }, program: ProgramId = 'hrsa'): SitePlan {
   const radiusKm = 15
   const { lat, lon } = at ?? t
   return {

@@ -4,7 +4,7 @@ const STEPS = [
   { n: 1, title: 'Pick your area', text: 'Type a town, ZIP code or county. Adjust the ZIP codes on the map.' },
   { n: 2, title: 'Prove the need', text: 'Low-income women, insurance, transportation and screening, filled in for you.' },
   { n: 3, title: 'Site, space & partners', text: 'Place the site, save a coverage map, find space, track partner letters.' },
-  { n: 4, title: 'Download your evidence', text: 'One plan becomes a version for each funder, as PDFs.' },
+  { n: 4, title: 'Download your evidence', text: 'Your HRSA application evidence as a PDF. More funders coming soon.' },
 ]
 
 /** What each funder asks for, row by row. The same HerSite step answers each row. */
@@ -35,8 +35,9 @@ export default function HowItWorks({ onSources }: { onSources: () => void }) {
         <p className="hero-kicker">For women's health clinics and community health centers in California</p>
         <h2 id="how-title">One site plan, the evidence every funder asks for</h2>
         <p className="how-lede">
-          Funders ask the same questions in different words: where you'll serve, how great the need is, whether the site is easy
-          to reach, and who will work with you. HerSite answers them once, from free public data.
+          HerSite is built for HRSA's Health Center Program today. Funders ask the same questions in different words: where you'll
+          serve, how great the need is, whether the site is easy to reach, and who will work with you. Title X and CalRHT versions
+          are coming soon.
         </p>
 
         <ol className="timeline">
@@ -57,9 +58,10 @@ export default function HowItWorks({ onSources }: { onSources: () => void }) {
                 <tr>
                   <th scope="col"><span className="sr-only">Requirement</span></th>
                   {PROGRAM_ORDER.map((id) => (
-                    <th key={id} scope="col" className={id === 'titlex' ? 'lead' : ''}>
-                      <span className="funder-who">{PROGRAMS[id].who}</span>
+                    <th key={id} scope="col" className={PROGRAMS[id].available ? 'lead' : 'soon'}>
+                      <span className="funder-who">{PROGRAMS[id].available ? 'Supported now' : <span className="soon-tag">Coming soon</span>}</span>
                       <span className="funder-name">{PROGRAMS[id].name}</span>
+                      <span className="funder-sub">{PROGRAMS[id].who}</span>
                     </th>
                   ))}
                 </tr>
@@ -68,13 +70,13 @@ export default function HowItWorks({ onSources }: { onSources: () => void }) {
                 {ROWS.map((r) => (
                   <tr key={r.ask}>
                     <th scope="row"><b>{r.ask}</b><span>{r.step}</span></th>
-                    {PROGRAM_ORDER.map((id) => <td key={id} className={id === 'titlex' ? 'lead' : ''}>{r.cells[id]}</td>)}
+                    {PROGRAM_ORDER.map((id) => <td key={id} className={PROGRAMS[id].available ? 'lead' : 'soon'}>{r.cells[id]}</td>)}
                   </tr>
                 ))}
                 <tr className="funder-notes">
                   <th scope="row"><span>Notes</span></th>
                   {PROGRAM_ORDER.map((id) => (
-                    <td key={id} className={id === 'titlex' ? 'lead' : ''}>
+                    <td key={id} className={PROGRAMS[id].available ? 'lead' : 'soon'}>
                       {PROGRAMS[id].notes}{' '}
                       <a href={PROGRAMS[id].link} target="_blank" rel="noreferrer" className="link">About {PROGRAMS[id].short} ↗</a>
                     </td>
