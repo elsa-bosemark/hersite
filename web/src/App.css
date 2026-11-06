@@ -590,3 +590,17 @@ h1, h2, h3, p { text-wrap: pretty; }
 .funder-table thead th.lead .funder-who { color: var(--accent-ink); }
 .funder-sub { display: block; font-size: 12.5px; font-weight: 400; color: var(--text-2); margin-top: 2px; }
 .funder-table .funder-who .soon-tag { margin-left: 0; }
+
+/* Tighter corners throughout */
+.print-page section { border-radius: 3px; }
+.doc-scroll .print-page section.current { border-radius: 3px; box-shadow: 0 0 0 10px #f8f5ff, 0 0 0 11.5px var(--accent); }
+select, .btn, .btn.small, .btn.block { border-radius: 6px; }
+.btn.big { border-radius: 8px; }
+.pill, .auto, .soon-tag, .chip, .segmented button, .version-tabs, .version-tabs button { border-radius: 5px; }
+.version-tabs button { border-radius: 4px; }
+.search-bar, .hero-card, .funders, .mini-map-frame, .map-key, .learn, .suggest { border-radius: 10px; }
+.search-field, .tile, .stat-row > div, .space-list li, .partner-list li, .versions li, .local-row, .score-card { border-radius: 6px; }
+.field input:not([type]), .field textarea, .space-controls input, .space-controls select, .add-partner input, .add-partner select, .local-inputs input, .narrative { border-radius: 5px; }
+.funder-table thead th.lead { border-radius: 6px 6px 0 0; }
+.funder-table tr:last-child td.lead { border-radius: 0 0 6px 6px; }
+.doc-scroll .print-page { border-radius: 4px; }
