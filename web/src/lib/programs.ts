@@ -41,7 +41,7 @@ export const PROGRAMS: Record<ProgramId, Program> = {
       ask: 'Copy commitment request',
       letter: 'commitment',
     },
-    notes: 'The FY2027 notice (PA-FPH-27-001) was due January 9, 2027. Check Essential Access Health for California subrecipient openings.',
+    notes: 'Applications for the FY2027 notice (PA-FPH-27-001) are due January 9, 2027. Check Essential Access Health for California subrecipient openings.',
     link: 'https://opa.hhs.gov/grant-programs/title-x-service-grants',
   },
   hrsa: {
