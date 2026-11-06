@@ -530,3 +530,42 @@ select:hover, select:focus {
 .how h2 { max-width: none; text-wrap: balance; }
 .how-lede { max-width: 1000px; text-wrap: pretty; }
 h1, h2, h3, p { text-wrap: pretty; }
+
+/* ---------- How it works: timeline + funder comparison ---------- */
+.timeline { list-style: none; margin: 8px 0 40px; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; position: relative; }
+.timeline::before {
+  content: ''; position: absolute; top: 17px; left: 18px; right: 18px; height: 2px;
+  background: linear-gradient(90deg, var(--accent) 0%, #d8cdfa 100%); z-index: 0;
+}
+.timeline li { position: relative; z-index: 1; }
+.timeline-num {
+  display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; font-weight: 700; font-size: 15px;
+  background: var(--accent); color: #fff; box-shadow: 0 0 0 6px var(--page);
+}
+.timeline h3 { margin: 16px 0 4px; font-size: 16px; letter-spacing: -0.01em; text-transform: none; color: var(--text-1); }
+.timeline p { margin: 0; font-size: 14px; color: var(--text-2); max-width: 240px; }
+
+.funders { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 24px 24px 8px; }
+.funders-title { margin: 0 0 16px; font-size: 17px; text-transform: none; letter-spacing: -0.01em; color: var(--text-1); }
+.funder-scroll { overflow-x: auto; }
+.funder-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 14px; min-width: 720px; }
+.funder-table th, .funder-table td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--border); }
+.funder-table thead th { border-bottom: 2px solid var(--border); vertical-align: bottom; }
+.funder-table tbody th { width: 150px; }
+.funder-table tbody th b { display: block; font-size: 14px; }
+.funder-table tbody th span { font-size: 12px; color: var(--muted); font-weight: 500; }
+.funder-who { display: block; font-size: 11.5px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
+.funder-name { display: block; font-size: 16px; font-weight: 700; margin-top: 2px; }
+.funder-table .lead { background: var(--accent-soft); }
+.funder-table thead th.lead { border-radius: 12px 12px 0 0; }
+.funder-table thead th.lead .funder-who { color: var(--accent-ink); }
+.funder-table tr:last-child td.lead { border-radius: 0 0 12px 12px; }
+.funder-notes td { font-size: 12.5px; color: var(--muted); border-bottom: 0; }
+.funder-notes .link { font-size: 12.5px; }
+.trust-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; margin-top: 20px; font-size: 13.5px; color: var(--accent-ink); }
+.trust-row .link { margin-left: auto; }
+@media (max-width: 900px) {
+  .timeline { grid-template-columns: 1fr 1fr; }
+  .timeline::before { display: none; }
+}
+@media (max-width: 520px) { .timeline { grid-template-columns: 1fr; } }
