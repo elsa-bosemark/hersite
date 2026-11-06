@@ -1,0 +1,12 @@
+# Python environment and raw downloads (rebuild with data-pipeline/fetch.py)
+.venv/
+__pycache__/
+data-pipeline/raw/
+
+# Node
+node_modules/
+web/dist/
+
+# OS / editor
+.DS_Store
+*.log
